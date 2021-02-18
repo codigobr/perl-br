@@ -1,0 +1,729 @@
+﻿<!DOCTYPE html>
+<html lang="pt_br">
+    <head>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <!-- Especificar as informações do facebook e twitter além de uma imagem para o site no caso de compartilhamento -->
+        <title>Perl: Introdução [Aprenda em 1 minuto] | Robert Salles</title>
+        <link rel="canonical" href="https://perl.dev.br/tutorial/introducao/">
+
+        <!--  -->
+
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+
+        <meta name="description" content="Introdução ao Perl para iniciantes.">
+        <meta name="robots" content="all">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="utf-8">
+
+        <meta property="og:title" content="Perl: Introdução [Aprenda em 1 minuto] | Robert Salles">
+        <meta property="og:image" content="">
+        <meta property="og:url" content="https://perl.dev.br/tutorial/introducao/">
+        <meta property="og:description" content="Introdução ao Perl para iniciantes.">
+
+		<!-- Semantic UI, deve ser carregado de forma assincrona depois de extrair o essencial e colocar diretamente dentro de cada página. -->
+
+        <!-- <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet"> -->
+
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.6/dist/semantic.min.css">
+
+        <!-- Quando carregado de forma local gera um erro para mostrar os ícones na página pois carrega as fontes usando o caminho relativo do arquivo original. -->
+
+        <link rel="stylesheet" type="text/css" href="/assets/css/vendor/highlightjs/default.css">
+        <link rel="stylesheet" type="text/css" href="/assets/css/app.css">
+
+    </head>
+    <body>
+    	<!-- Referencia para voltar ao topo -->
+        <span id="#top"></span>
+
+        <!-- Botão inferior usado para retornar ao topo da página -->
+        <span id="back-to-top" class="box-shadow">
+        	<i class="ui large text up arrow icon m-0"></i>
+        </span>
+
+        <!-- Pesquisa no estilo (alt+shift+p) do sublime text -->
+        <div class="search-container">
+	<!-- Sobreposição com fundo branco do container da pesquisa -->
+	<div class="white-dimmer" id="search-dimmer"></div>
+	<span class="html-popup" id="close-search" data-html="<div class='header'>Fechar pesquisa</div><div class='content'><i class='keyboard outline icon'></i>&nbsp;<b>ESC</b></div>" data-position="bottom right">
+		<i class="close icon m-0"></i>
+	</span>
+	<div class="ui centered grid mt-30">
+		<div class="eight wide computer ten wide tablet fourteen wide table mobile column">
+			<div class="ui scrolling local fluid search">
+				<div class="ui left icon input w-100">
+					<input class="prompt" type="text" placeholder="Digite para pesquisar..." id="search-input">
+					<i class="search icon"></i>
+				</div>
+				<div class="results"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+        <div class="sidebars" tabindex="1">
+	<!-- Sobreposição branca para bloquear os outros elementos da página -->
+	<div class="white-dimmer" id="sidebar-dimmer"></div>
+
+	<div class="sidebar-menu" id="main-menu" style="z-index: 1;position: fixed;">
+		<!-- Cabeçalho do menu lateral esquerdo -->
+		<div class="item menu-header">
+			<span class="ui text">
+				<strong style="color: rgba(0,0,0,.85);">Menu</strong>
+			</span>
+			<a class="html-popup float-right close-sidebar" style="cursor: pointer;color: rgba(0,0,0,.4);" data-html="<div class='header'>Fechar menu</div><div class='content'><i class='keyboard outline icon'></i>&nbsp;<b>ESC</b></div>" data-position="bottom right">
+				<span class="ui text"><i class="close icon m-0"></i></span>
+			</a>
+		</div>
+
+		<!-- Lista de elementos do primeiro menu lateral esquerdo -->
+		<div class="ui left vertical accordion menu" style="margin-top: 0;border-radius: 0;height: calc(100vh - 49px)">
+			<a class="item sub-menu menu-item navigable-item" data-menu="perl-tutorial">Perl Tutorial<i class="caret right icon"></i></a>
+			<!-- <a class="item sub-menu menu-item navigable-item" data-menu="perl-reference">Perl Reference<i class="caret right icon"></i></a>
+			<a class="item menu-item navigable-item" data-menu="perl-reference">Articles</a> -->
+		</div>
+	</div>
+
+	<!-- Sub-menu lateral, o argumento "id" desse menu deve ser o mesmo do argumento "data-menu" localizado no menu principal -->
+	<div class="sidebar-menu has-filter" id="perl-tutorial" style="z-index: 2; display: none;position: fixed;">
+		<div class="item menu-header">
+			<!-- Setinha para voltar ao menu principal -->
+			<a  class="back-sidebar-menu html-popup"
+				data-menu="perl-tutorial"
+				data-html="<div class='header'>Voltar</div><div class='content'><i class='keyboard outline icon'></i>&nbsp;<b>CTRL</b>+<b>SETA PARA ESQUERDA</b></div>"
+				data-position="bottom right"
+				style="cursor: pointer;color: rgba(0,0,0,.4);">
+				<span class="ui text"><i class="left arrow icon"></i></span>
+			</a>
+
+			<!-- Título do menu -->
+			<span class="ui text">
+				<strong style="color: rgba(0,0,0,.85);">Perl Tutorial</strong>
+			</span>
+
+			<!-- Caixinha para filtrar os elementos do menu, basta digitar de qualquer lugar que o valor é colocado automaticamente dentro dessa caixa. -->
+			<div class="ui form" style="margin-top: 10px">
+				<div class="field">
+					<div class="ui calendar">
+						<div class="ui input left icon">
+							<i class="filter icon"></i>
+							<input class="menu-filter" type="text" placeholder="Digite para filtrar...">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Lista de elementos do sub-menu -->
+		<div class="ui left vertical accordion menu" style="margin-top: 0;border-radius: 0;height: calc(100vh - 91px)">
+			<div class="item menu-item menu-with-header">
+				<div class="header uppercase">Perl fundamentals</div>
+				<div class="menu">
+					<a class="item menu-item navigable-item" href="/tutorial/perl-home/">Perl · Home</a>
+					<a class="item menu-item navigable-item" href="#">Perl · Introduction</a>
+					<a class="item menu-item navigable-item" href="#">Perl · Environment</a>
+					<a class="item menu-item navigable-item" href="#">Perl · Syntax Overview</a>
+					<a class="item menu-item navigable-item" href="#">Perl · Data Types</a>
+					<a class="item menu-item navigable-item" href="#">Perl · Variables</a>
+
+					<div class="ui left vertical accordion menu">
+						<div class="item menu-item menu-with-header">
+							<div class="header uppercase">Perl · Variables</div>
+							<div class="menu">
+								<a class="item menu-item navigable-item" href="/tutorial/perl-home/">Variables Names</a>
+								<a class="item menu-item navigable-item" href="/tutorial/perl-home/">Global Variables</a>
+								<a class="item menu-item navigable-item" href="/tutorial/perl-home/">Assign Multiple Values</a>
+							</div>
+						</div>
+					</div>
+
+
+					<a class="item menu-item navigable-item" href="#">Perl · Scalars</a>
+					<a class="item menu-item navigable-item" href="#">Perl · Arrays</a>
+					<a class="item menu-item navigable-item" href="#">Perl · Hashes</a>
+					<a class="item menu-item navigable-item" href="#">Perl · if...else</a>
+					<a class="item menu-item navigable-item" href="#">Perl · Loops</a>
+					<a class="item menu-item navigable-item" href="#">Perl · Operators</a>
+					<a class="item menu-item navigable-item" href="#">Perl · Date & Time</a>
+					<a class="item menu-item navigable-item" href="#">Perl · Subroutines</a>
+					<a class="item menu-item navigable-item" href="#">Perl · References</a>
+					<a class="item menu-item navigable-item" href="#">Perl · Formats</a>
+					<a class="item menu-item navigable-item" href="#">Perl · File I/O</a>
+					<a class="item menu-item navigable-item" href="#">Perl · Directories</a>
+					<a class="item menu-item navigable-item" href="#">Perl · Error Handling</a>
+					<a class="item menu-item navigable-item" href="#">Perl · Special Variables</a>
+					<a class="item menu-item navigable-item" href="#">Perl · Coding Standard</a>
+					<a class="item menu-item navigable-item" href="#">Perl · Regular Expressions</a>
+					<a class="item menu-item navigable-item" href="#">Perl · Sending Email</a>
+				</div>
+			</div>
+
+			<div class="item menu-item menu-with-header">
+				<div class="header uppercase">Perl advanced</div>
+				<div class="menu">
+					<a class="item menu-item navigable-item" href="#">Perl · Socket Programming</a>
+					<a class="item menu-item navigable-item" href="#">Perl · Object Oriented</a>
+					<a class="item menu-item navigable-item" href="#">Perl · Database Access</a>
+					<a class="item menu-item navigable-item" href="#">Perl · CGI Programming</a>
+					<a class="item menu-item navigable-item" href="#">Perl · Packages & Modules</a>
+					<a class="item menu-item navigable-item" href="#">Perl · Process Management</a>
+					<a class="item menu-item navigable-item" href="#">Perl · Embedded Documentation</a>
+					<a class="item menu-item navigable-item" href="#">Perl · Functions References</a>
+				</div>
+			</div>
+
+			<div class="item menu-item menu-with-header">
+				<div class="header uppercase">Perl resources</div>
+				<div class="menu">
+					<a class="item menu-item navigable-item" href="#">Perl · Questions and Answers</a>
+					<a class="item menu-item navigable-item" href="#">Perl · Exercises</a>
+					<a class="item menu-item navigable-item" href="#">Perl · Quick Guide</a>
+					<a class="item menu-item navigable-item" href="#">Perl · Useful Resources</a>
+					<a class="item menu-item navigable-item" href="#">Perl · Books</a>
+					<a class="item menu-item navigable-item" href="#">Perl · Courses</a>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- Para inserir ou menu basta usar a mesma formatação do sub-menu anterior e ajustar os valores dos elementos de acordo. -->
+</div>
+
+        <div class="display-flex">
+            <!-- Para empurrar o footer para a parte de baixo da página -->
+            <div style="flex:1;-webkit-box-flex: 1;-ms-flex: 1;">
+                <!-- Cebeçalho/barra superior da página. -->
+                <div class="ui br-0 p-0" id="header">
+	<div class="ui secondary menu mb-0 mt-0">
+		<!-- ìcone de barras, abre o menu lateral esquerdo -->
+		<a  class="item top-bt html-popup"
+		    id="open-sidebar"
+		    data-action="toggle"
+		    data-side="left"
+		    data-html="<div class='header'>Menu</div><div class='content'><b>ALT</b>+<b>SHIFT</b>+<b>M</b> Abrir menu<br><b><i class='arrow up icon'></i></b>, <b><i class='arrow down icon'></i></b> Navegar pelo menu<br><b>ENTER</b> Ativar o menu selecionado.</div>"
+		    data-position="bottom left">
+			<span class="ui large text"><i class="bars icon"></i></span>
+		</a>
+
+		<!-- Nome/logo do site -->
+		<div class="item" style="padding-left: 0; flex: 1;justify-content: center;">
+			<a href="/" class="display-flex" style="flex-direction: row; justify-content: center;align-content: center;">
+				<span class="ui large text">
+					<strong style="color: #424242;">PERL</strong>
+				</span>
+			</a>
+		</div>
+
+		<!-- ìcone de lupa, abre o container da pesquisa -->
+		<a  class="item top-bt html-popup"
+			id="open-search"
+			data-html="<div class='header'>Abrir pesquisa</div><div class='content'><i class='keyboard outline icon'></i>&nbsp;<b>ALT</b>+<b>SHIFT</b>+<b>P</b></div>"
+			data-position="bottom right"
+			data-offset="-10">
+			<span class="ui large text"><i class="search icon"></i></span>
+		</a>
+	</div>
+</div>
+
+                <!-- Mensagem no topo da página. -->
+				
+
+                <div class="article mv-80">
+
+                	<!-- Breadcrumb, H1, sub heading & autor -->
+					<div class="ui container mv-40">
+					    <div class="ui centered grid">
+					        <div class="ten wide computer fourteen wide tablet sixteen wide mobile column">
+
+					        	<!-- Próximo e anterior na parte de cima -->
+					        	<div class="ui vertical segment b-0 p-0 mb-40">
+					        		<div class="ui fluid container">
+					        			<div class="ui equal height grid">
+					        				<div class="eight wide column left aligned">
+					        					<a href="/tutorial/comentarios/" class="ui left labeled icon button html-popup" data-html="<div class='header'>Anterior</div><div class='content'>Comentários em Perl</div>" data-position="bottom left" style="flex-direction: column;">
+					        					  <i class="left chevron icon"></i>
+					        					  Anterior
+					        					</a>
+					        				</div>
+					        				<div class="eight wide column right aligned">
+					        					<a href="/tutorial/comentarios/" class="ui right labeled icon button m-0 html-popup" data-html="<div class='header'>Próximo</div><div class='content'>Comentários em Perl</div>" data-position="bottom right" style="flex-direction: column;">
+					        					  <i class="right chevron icon"></i>
+					        					  Próximo
+					        					</a>
+					        				</div>
+					        			</div>
+					        		</div>
+					        	</div>
+
+					            <div class="ui breadcrumb mb-20" id="page-breadcrumb">
+	<a href="/" class="section">Ínicio</a>
+	<i class="right angle icon divider"></i>
+		<a href="/tutorial/" class="section">Tutorial</a>
+	<i class="right angle icon divider"></i>
+	<div class="active section">Introdução ao Perl</div>
+</div>
+
+					            <div style="position: relative; padding-right: 56px;">
+					                <h1 style="margin-bottom: 0">Introdução ao Perl</h1>
+
+					                <div class="ui right dropdown item share-dropdown">
+	<i class="share alternate icon"></i><i class="dropdown icon"></i>
+	<div class="left menu">
+
+		<!-- Facebook -->
+		<div class="item">
+			<a class="collection-item" data-sharer="facebook" data-url="https://perl.dev.br/tutorial/introducao/">
+				<i class="facebook icon"></i>
+				Facebook
+			</a>
+		</div>
+
+		<!-- Twitter -->
+		<div class="item">
+			<a class="collection-item" data-sharer="twitter" data-title="Perl: Introdução [Aprenda em 1 minuto] | Robert Salles" data-url="https://perl.dev.br/tutorial/introducao/">
+				<i class="twitter icon"></i>
+				Twitter
+			</a>
+		</div>
+
+		<!-- Linkedin -->
+		<div class="item">
+			<a class="collection-item" data-sharer="linkedin" data-url="https://perl.dev.br/tutorial/introducao/">
+				<i class="linkedin icon"></i>
+				LinkedIn
+			</a>
+		</div>
+
+		<!-- Pinterest -->
+		<div class="item">
+			<a  class="collection-item"
+				data-sharer="pinterest"
+				data-url="https://perl.dev.br/tutorial/introducao/"
+				data-image=""
+				data-description="Introdução ao Perl para iniciantes.">
+				<i class="pinterest icon"></i>
+				Pinterest
+			</a>
+		</div>
+
+		<!-- Email -->
+		<div class="item">
+			<a  class="collection-item"
+				data-sharer="email"
+				data-title="Perl: Introdução [Aprenda em 1 minuto] | Robert Salles"
+				data-subject=""
+				data-url="https://perl.dev.br/tutorial/introducao/"
+				data-to="someone@example.com">
+				<i class="envelope icon"></i>
+				E-mail
+			</a>
+		</div>
+
+		<!-- Whatsapp web -->
+		<div class="item hide-mobile">
+			<a  class="collection-item"
+				data-sharer="whatsapp"
+				data-title="Perl: Introdução [Aprenda em 1 minuto] | Robert Salles"
+				data-url="https://perl.dev.br/tutorial/introducao/"
+				data-web="true">
+				<i class="whatsapp icon"></i>
+				WhatsApp Web
+			</a>
+		</div>
+
+		<!-- Whatsapp -->
+		<div class="item hide-desktop">
+			<a  class="collection-item"
+				data-sharer="whatsapp"
+				data-title="Perl: Introdução [Aprenda em 1 minuto] | Robert Salles"
+				data-url="https://perl.dev.br/tutorial/introducao/">
+				<i class="whatsapp icon"></i>
+				WhatsApp
+			</a>
+		</div>
+
+		<!-- Telegram -->
+		<div class="item hide-desktop">
+			<a  class="collection-item"
+				data-sharer="telegram"
+				data-title="Perl: Introdução [Aprenda em 1 minuto] | Robert Salles"
+				data-url="https://perl.dev.br/tutorial/introducao/"
+				data-to="(00) 99999-9999">
+				<i class="telegram icon"></i>
+				Telegram
+			</a>
+		</div>
+	</div>
+</div>
+					            </div>
+
+
+					            <div>
+					                <small style="font-size: 75%;">
+					                    <!-- <span class="ui grey text"></span> -->
+					                    <span class="ui grey text"><span class="ui grey text display-inline-block mr-10"><i class="calendar check outline icon"></i><b>Publicado</b> 16 de Fev. de 2021</span><span class="ui grey text display-inline-block mr-10"><i class="clock outline icon"></i><b>1</b> min leitura</span></span>
+					                </small>
+					            </div>
+
+					            <h2 class="sub-heading">Nesse tutorial você terá uma visão geral da linguagem.</h2>
+
+					            <!-- Autor -->
+<!-- <div class="ui unstackable items mv-60">
+	<div class="item">
+		<div class="ui circular image" style="align-self: center">
+			<img class="lazy-img unloaded" data-src="/assets/img/authors/robert.jpg" data-pin-nopin="true" width="60" height="60">
+		</div>
+		<div class="middle aligned content" style="padding-left:15px">
+			<span class="ui tiny header">Robert Salles</span>
+			<div class="meta">
+				<span>Me siga no <a href="https://twitter.com/vonzasi">Twitter&nbsp;<sup><small><i class="external alternate icon"></i></small></sup></a></span>
+			</div>
+		</div>
+	</div>
+</div> -->
+
+<div class="ui vertical segment">
+	<div class="ui container">
+		<div class="ui equal height stackable grid">
+			<div class="eight wide column flex-vertical-center">
+				<div class="ui unstackable items mv-60">
+					<div class="item">
+						<div class="ui circular image" style="align-self: center">
+							<img class="lazy-img unloaded" data-src="/assets/img/authors/robert.jpg" data-pin-nopin="true" width="60" height="60">
+						</div>
+						<div class="middle aligned content" style="padding-left:15px">
+							<span class="ui small header">Robert Salles</span>
+							<div class="meta">
+								<span>Me siga no <a href="https://twitter.com/vonzasi">Twitter&nbsp;<sup><small><i class="external alternate icon"></i></small></sup></a></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- <div class="eight wide column">
+				<img class="" src="/assets/img/ads/carbon-1.jpg" data-pin-nopin="true">
+			</div> -->
+		</div>
+	</div>
+</div>
+
+
+<!-- ./Autor -->
+
+					        </div>
+					    </div>
+					</div>
+
+					<div class="ui container mv-40">
+	<div class="ui centered grid">
+		<div class="ten wide computer fourteen wide tablet sixteen wide mobile column">
+			<h2>O que é o Perl?</h2><p>O Perl é uma linguagem de programação criada por Larry Wall em 1987.</p><p>Perl significa Pratical Extraction and Report Language.</p>
+		<p>A linguagem é usada para:</p><ul class="bullet-list"><li>Desenvolvimento Web (lado do servidor),</li><li>Criar scripts para automatizar tarefas do sistema,</li><li>Desenvolvimento de software.</li></ul>
+		</div>
+	</div>
+</div><div class="ui container mv-40">
+	<div class="ui centered grid">
+		<div class="ten wide computer fourteen wide tablet sixteen wide mobile column">
+			<h2>O que o Perl pode fazer?</h2><ul class="bullet-list"><li>Perl pode ser usado para criar aplicações web, rodando do lado do servidor.</li><li>Perl pode ser usado para automatizar tarefas do sistema.</li><li>Perl pode se conectar à banco de dados.</li><li>Perl pode ler, criar, alterar e excluir arquivos.</li><li>Perl pode ser usado para executar cálculos complexos matemáticos.</li><li>Perl pode ser usado para criar aplicativos de uma só linha ou programas mais complexos.</li></ul>
+		</div>
+	</div>
+</div><div class="ui container mv-40">
+	<div class="ui centered grid">
+		<div class="ten wide computer fourteen wide tablet sixteen wide mobile column">
+			<h2>Por que Perl?</h2><ul class="bullet-list"><li>Perl funciona em diversas plataformas (Windows, Mac, Linux, etc).</li><li>Perl é fácil de aprender por ter uma sintaxe intuitiva.</li><li>Perl é interpretado, isso significa que o seu código pode ser testado rapidamente, facilitando a prototipação.</li><li>Perl pode ser usado para programação orientada a objetos, procedural ou funcional.</li></ul>
+		</div>
+	</div>
+</div><div class="ui container mv-40">
+	<div class="ui centered grid">
+		<div class="ten wide computer fourteen wide tablet sixteen wide mobile column">
+			<h2>Importante saber</h2><ul class="bullet-list"><li>A versão mais recente do Perl é 5.32, essa versão será usada nesse tutorial.</li><li>O Perl 6 se tornou outra linguagem de programação, o Raku.</li></ul><h2>Olá mundo em Perl</h2><p>O primeiro exemplo de um script em Perl:</p>
+		</div>
+	</div>
+</div><div class="ui container mv-40">
+    <div class="ui centered grid">
+        <div class="ten wide computer fourteen wide tablet sixteen wide mobile column">
+        	<div class="ui secondary menu overflow-x-auto">
+	    	<a class="item mb-10 active" data-tab="perl_TwFY;v[Tur">Perl</a><a class="item mb-10" data-tab="cmd_Zij]DmT">Saída</a>
+	    </div><div class="ui bottom attached tab citation-tab-content p-0 active" data-tab="perl_TwFY;v[Tur"><pre><div class="code-toolbar">
+            <span class="code-language">ola_mundo.perl</span>
+            <a class="copy-code tooltip"
+               title="Copiar"
+               style="margin: 0;padding: 0;"
+               data-content="Copiar"
+               data-variation="basic"
+               data-position="bottom right">
+                <i class="copy icon code-badge-copy-icon m-0 p-0"></i>
+            </a>
+            <a class="download-code tooltip ml-20"
+               title="Download"
+               data-content="Download"
+               data-variation="basic"
+               data-position="bottom right"
+               data-offset="-20">
+                <i class="arrow alt down icon code-badge-download-icon m-0 p-0"></i>
+            </a>
+        </div><code class="lang-perl" data-filename="ola_mundo" data-fileExtension="perl">print("Olá mundo");</code></pre></div><div class="ui bottom attached tab citation-tab-content p-0" data-tab="cmd_Zij]DmT"><pre><div class="code-toolbar">
+            <span class="code-language">ola_mundo_saida.txt</span>
+            <a class="copy-code tooltip"
+               title="Copiar"
+               style="margin: 0;padding: 0;"
+               data-content="Copiar"
+               data-variation="basic"
+               data-position="bottom right">
+                <i class="copy icon code-badge-copy-icon m-0 p-0"></i>
+            </a>
+            <a class="download-code tooltip ml-20"
+               title="Download"
+               data-content="Download"
+               data-variation="basic"
+               data-position="bottom right"
+               data-offset="-20">
+                <i class="arrow alt down icon code-badge-download-icon m-0 p-0"></i>
+            </a>
+        </div><code class="lang-cmd" data-filename="ola_mundo_saida" data-fileExtension="txt">DB<2> print("Olá Mundo")
+Olá Mundo
+DB<3></code></pre></div><figcaption>
+		    <i class="laptop code grey icon mr-10"></i><b>Código 1.1</b>. Olá mundo em Perl.
+		</figcaption>
+        </div>
+    </div>
+</div><div class="ui container mv-40">
+    <div class="ui centered grid">
+        <div class="ten wide computer fourteen wide tablet sixteen wide mobile column">
+			<div class="ui raised segment">
+				<h3>Cite esse artigo</h3>
+				<div class="mb-20">Use a citação abaixo para adicionar esse artigo em sua <b>bibliografia</b>:</div>
+
+				<div class="ui secondary menu overflow-x-auto">
+					<a class="item active mb-10" data-tab="html">HTML</a>
+					<a class="item mb-10" data-tab="markdown">Markdown</a>
+					<a class="item mb-10" data-tab="abnt">ABNT</a>
+				</div>
+				<div class="ui bottom attached active tab citation-tab-content" data-tab="html">
+					&lt;a href=&quot;https://perl.dev.br/tutorial/introducao/&quot; target=&quot;_blank&quot; rel=&quot;follow&quot;&gt;Perl: Introdução [Aprenda em 1 minuto]&lt;/a&gt;
+				</div>
+				<div class="ui bottom attached tab citation-tab-content" data-tab="markdown">
+					[Perl: Introdução [Aprenda em 1 minuto]](https://perl.dev.br/tutorial/introducao/)
+				</div>
+				<div class="ui bottom attached tab citation-tab-content" data-tab="abnt">
+					SALLES, Robert. Perl: Introdução [Aprenda em 1 minuto]. <b>Perl Dev</b>, <span class="year-number">2008</span>. Disponível em: &lt;https://perl.dev.br/tutorial/introducao/&gt;. Acesso em: <span class="day-number">28</span> de <span class="month-abbr">July</span> de <span class="year-number">2008</span>.
+				</div>
+
+				<div class="text-center">
+					<a class="ui primary button copy-citation mt-20"><i class="copy icon"></i> Copy Citation</a>
+				</div>
+			</div>
+        </div>
+    </div>
+</div>
+
+
+                  	<div class="ui container mv-40">
+    <div class="ui centered grid">
+        <div class="ten wide computer fourteen wide tablet sixteen wide mobile column">
+			<!-- Botões de compartilhamento -->
+			<div class="share-buttons text-center mt-40">
+				<div><i class="share alternate icon"></i></div>
+
+				<!-- Facebook -->
+				<a  class="ui facebook circular icon button"
+					data-sharer="facebook"
+					data-url="https://perl.dev.br/tutorial/introducao/">
+					<i class="facebook f icon"></i>
+				</a>
+
+				<!-- Twitter -->
+				<a  class="ui twitter circular icon button"
+					data-sharer="twitter"
+					data-title="Perl: Introdução [Aprenda em 1 minuto] | Robert Salles"
+					data-url="https://perl.dev.br/tutorial/introducao/">
+					<i class="twitter icon"></i>
+				</a>
+
+				<!-- Linkedin -->
+				<a  class="ui linkedin circular icon button"
+					data-sharer="linkedin"
+					data-url="https://perl.dev.br/tutorial/introducao/">
+					<i class="linkedin in icon"></i>
+				</a>
+
+				<!-- Pinterest -->
+				<a  class="ui pinterest circular icon button"
+					data-sharer="pinterest"
+					data-url="https://perl.dev.br/tutorial/introducao/"
+					data-image=""
+					data-description="Introdução ao Perl para iniciantes.">
+					<i class="pinterest icon"></i>
+				</a>
+
+				<!-- Email -->
+				<a  class="ui email circular icon button"
+					data-sharer="email"
+					data-title="Perl: Introdução [Aprenda em 1 minuto] | Robert Salles"
+					data-subject=""
+					data-url="https://perl.dev.br/tutorial/introducao/"
+					data-to="someone@example.com">
+					<i class="envelope icon"></i>
+				</a>
+
+				<!-- Whatsapp Web -->
+				<a  class="ui whatsapp circular icon button hide-mobile"
+					data-sharer="whatsapp"
+					data-title="Perl: Introdução [Aprenda em 1 minuto] | Robert Salles"
+					data-url="https://perl.dev.br/tutorial/introducao/"
+					data-web="true"
+					target="_blank">
+					<i class="whatsapp icon"></i>
+				</a>
+
+				<!-- Whatsapp -->
+				<a  class="ui whatsapp circular icon button hide-desktop mobile-share"
+					data-sharer="whatsapp"
+					data-title="Perl: Introdução [Aprenda em 1 minuto] | Robert Salles"
+					data-url="https://perl.dev.br/tutorial/introducao/">
+					<i class="whatsapp icon"></i>
+				</a>
+
+				<!-- Telegram -->
+				<a  class="ui telegram circular icon button hide-desktop mobile-share"
+					data-sharer="telegram"
+					data-title="Perl: Introdução [Aprenda em 1 minuto] | Robert Salles"
+					data-url="https://perl.dev.br/tutorial/introducao/"
+					data-to="(00) 99999-9999">
+					<i class="telegram plane icon"></i>
+				</a>
+			</div>
+			<!-- ./Botões de compartilhamento -->
+		</div>
+	</div>
+</div>
+
+				</div>
+            </div>
+            <!-- Fim do Flex:1 -->
+
+            <!-- Botões de navegação Previous e Next (artigos) -->
+            <div class="ui vertical segment p-0" style="padding: 70px 0;">
+            	<div class="ui fluid container">
+            		<div class="ui equal height stackable grid">
+            			<div class="eight wide column pr-0">
+            				<a href="/tutorial/comentarios/" class="ui labeled huge icon button flex-center m-0" data-html="<div class='header'>Anterior</div><div class='content'>Comentários em Perl</div>" data-position="bottom left" style="flex-direction: column;">
+            				    <i class="left chevron icon flex-center"></i>
+            				    <div style="
+            				        margin-bottom: 8px;
+            				        width: 100%;
+            				        text-align: left;
+            				        font-weight: bolder;
+            				        "><small><b>Anterior</b></small></div>
+            				    <div class="overflow-hidden" style="
+            				        width: 100%;
+            				        text-align: left;
+            				        ">Comentários em Perl</div>
+            				</a>
+            			</div>
+            			<div class="eight wide column pl-0">
+            				<a href="/tutorial/comentarios/" class="ui right labeled icon huge button flex-center m-0 pl-0" data-html="<div class='header'>Próximo</div><div class='content'>Comentários em Perl</div>" data-position="bottom right" style="flex-direction: column;">
+            				    <div style="
+            				        margin-bottom: 8px;
+            				        /* display: block; */
+            				        width: 100%;
+            				        text-align: right;
+            				        "><small><b>Próximo</b></small></div>
+            				    <div class="overflow-hidden" style="
+            				        text-align: right;
+            				        width: 100%;
+            				        ">Comentários em Perl</div>
+            				    <i class="right chevron icon flex-center"></i>
+            				</a>
+            			</div>
+            		</div>
+            	</div>
+            </div>
+            <!-- ./Botões de navegação Previous e Next (artigos) -->
+
+            <!-- <div class="ui inverted vertical footer segment" style="padding: 70px 0;"> -->
+<div class="ui inverted vertical footer segment">
+	<div class="ui container">
+<!-- 		<div class="ui inverted divided equal height stackable grid">
+			<div class="seven wide column">
+				<h4 class="ui inverted header">Our Mission</h4><p>Get you started in <b>Perl</b> programming with ease and joy, the tutorials are <b>short</b>, <b>simple</b> and <b>easy to follow</b>, we work hard to bring you only the best, most accurate and well researched information.</p><p>We are <b>developers</b> making content for <b>developers</b> <span class="ui red text"><i class="heart icon"></i></span></p>
+			</div>
+			<div class="three wide column">
+				<h4 class="ui inverted header">Veja também</h4>
+				<div class="ui inverted link list">
+					<a href="#" class="item">The best Perl tutorial</a>
+					<a href="#" class="item">Cheat sheet</a>
+					<a href="#" class="item">Perl reference</a>
+					<a href="#" class="item">Perl resources</a>
+					<a href="#" class="item">Perl recipies</a>
+					<a href="#" class="item">The best Perl book</a>
+					<a href="#" class="item">Perl exercises</a>
+					<a href="#" class="item">Perl quiz</a>
+				</div>
+			</div>
+			<div class="three wide column">
+				<h4 class="ui inverted header">Institutional</h4>
+				<div class="ui inverted link list">
+					<a href="/about-us/" class="item">About us</a>
+					<a href="#" class="item">Privacy</a>
+					<a href="#" class="item">Policies</a>
+					<a href="#" class="item">Terms of use</a>
+					<a href="#" class="item">Legal notice</a>
+				</div>
+			</div>
+			<div class="three wide column">
+				<div class="ui inverted link list">
+					<a href="/about-us/" class="item"><i class="us flag"></i> English</a>
+					<a href="/about-us/" class="item"><i class="br flag"></i> Português</a>
+					<a href="/about-us/" class="item"><i class="es flag"></i> Español</a>
+					<a href="/about-us/" class="item"><i class="ru flag"></i> русский</a>
+					<a href="/about-us/" class="item"><i class="cn flag"></i> 中文</a>
+				</div>
+			</div>
+		</div>
+		<div class="ui section divider"></div> -->
+        <div class="ui horizontal small divided inverted link list">
+        	<small class="item" style="font-size:95%;line-height:1.4;">
+	        	Exceto onde indicado de outra forma, o conteúdo deste site é licenciado sob <a class="item" href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank">Creative Commons Attribution 3.0&nbsp;<sup><small><i class="external alternate icon"></i></small></sup></a>. Todos os nomes de produtos, logotipos e marcas são propriedade de seus respectivos proprietários. Todos os nomes de empresas, produtos e serviços usados neste site são apenas para fins de identificação. O uso desses nomes, logotipos e marcas não implica endosso
+        	</small>
+        </div>
+	</div>
+</div>
+        </div>
+
+
+        <!-- You MUST include jQuery before Fomantic -->
+        <script src="/assets/js/vendor/jquery@3.3.1/jquery.min.js"></script>
+        <script src="/assets/js/vendor/fomantic-ui@2.8.6/semantic.min.js"></script>
+        <!-- Lazy Loading Images -->
+        <script src="/assets/js/vendor/jquery.lazy@1.7.9/jquery.lazy.min.js"></script>
+        <script src="/assets/js/vendor/jquery.lazy@1.7.9/jquery.lazy.youtube.min.js"></script>
+        <script src="/assets/js/vendor/jquery.lazy@1.7.9/jquery.lazy.picture.min.js"></script>
+
+        <!-- Highlight.js -->
+        <script src="/assets/js/vendor/hl.js"></script>
+        <!-- Copia conteúdo para a memória, possui polyfill -->
+        <script src="/assets/js/vendor/clipboard.min.js"></script>
+        <!-- Compartilhamento em redes sociais -->
+        <script src="/assets/js/vendor/sharer.min.js"></script>
+
+        <!-- Cria âncoras automaticamente no documento/não funcinou muito bem, preciso verificar -->
+        <script src="https://cdn.jsdelivr.net/npm/anchor-js/anchor.min.js"></script>
+
+        <!-- Coloca um botão para salvar a imagem no pinterest (coloca em todas as imagens da página) -->
+        <script type="text/javascript" async defer data-pin-count="beside" data-pin-hover="true" src="//assets.pinterest.com/js/pinit.js"></script>
+
+        <script type="text/javascript" src="/assets/js/app.js"></script>
+        <script type="text/javascript">
+
+        </script>
+    </body>
+</html>
